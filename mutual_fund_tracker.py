@@ -22,13 +22,14 @@ import time
 #driver=webdriver.Chrome(r"C:\Users\light\Desktop\lightsquaresolutions\Mutual_Fund_Tracker\chromedriver.exe", chrome_options=options)
 #driver=Firefox()
 driver=webdriver.PhantomJS()
-wb=load_workbook(r'C:\Users\light\Desktop\lightsquaresolutions\Mutual_Fund_Tracker\Mutual_Fund_Tracker.xlsx')
+#wb=load_workbook(r'C:\Users\light\Desktop\lightsquaresolutions\Mutual_Fund_Tracker\Mutual_Fund_Tracker.xlsx')
+wb=load_workbook(r'Mutual_Fund_Tracker.xlsx')
 ws=wb.get_sheet_by_name('Mutual Funds')
 
 for i in range(3, ws.max_row+1):
     if ws.cell(i,2).value is not None:
         #time.sleep(5)
-        print(ws.cell(i,2).value)
+        #print(ws.cell(i,2).value)
         res=requests.get('http://finance.yahoo.com/q?s=' + ws.cell(i,2).value + '&q1=1')
         soup=bs4.BeautifulSoup(res.text)
         try:
@@ -73,10 +74,12 @@ for i in range(3, ws.max_row+1):
                 stop=time.time()
                 oneyear=driver.find_element_by_css_selector('#Col1-0-Performance-Proxy > section > div:nth-child(2) > div > div:nth-child(5) > span:nth-child(2)').text  
                 threeyear=driver.find_element_by_css_selector('#Col1-0-Performance-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(6) > span:nth-of-type(2)').text
-                fiveyear=driver.find_element_by_css_selector('#Col1-0-Performance-Proxy > section > div:nth-child(2) > div > div:nth-child(8) > span.W\(20\%\).D\(b\).Fl\(start\).Ta\(e\)').text
+                fiveyear=driver.find_element_by_css_selector('#Col1-0-Performance-Proxy > section > div:nth-child(2) > div > div:nth-child(7) > span.W\(20\%\).D\(b\).Fl\(start\).Ta\(e\)').text
+                tenyear=driver.find_element_by_css_selector('#Col1-0-Performance-Proxy > section > div:nth-child(2) > div > div:nth-child(8) > span.W\(20\%\).D\(b\).Fl\(start\).Ta\(e\)').text
                 ws.cell(i,10).value=oneyear
                 ws.cell(i,11).value=threeyear
                 ws.cell(i,12).value=fiveyear
+                ws.cell(i,13).value=tenyear
                 break
             except:
                 pass
@@ -108,33 +111,33 @@ for i in range(3, ws.max_row+1):
         while True and stop-start<10 and not skip:
             try:
                 stop=time.time()
-                threeyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > span').text
-                threeyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > span').text
-                threeyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(6) > div:nth-of-type(2) > span').text
-                threeyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(7) > div:nth-of-type(2) > span').text
-                threeyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(8) > div:nth-of-type(2) > span').text
+                threeyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(3) > div:nth-child(2) > span.W\(39\%\).Fl\(start\)').text
+                threeyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(4) > div:nth-child(2) > span.W\(39\%\).Fl\(start\)').text
+                threeyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(6) > div:nth-child(2) > span.W\(39\%\).Fl\(start\)').text
+                threeyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(7) > div:nth-child(2) > span.W\(39\%\).Fl\(start\)').text
+                threeyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(8) > div:nth-child(2) > span.W\(39\%\).Fl\(start\)').text
                 ws.cell(i,19).value=threeyearalpha
                 ws.cell(i,18).value=threeyearbeta
                 ws.cell(i,17).value=threeyearrsquared
                 ws.cell(i,14).value=threeyearsd
                 ws.cell(i,15).value=threeyearsharpe 
                
-                fiveyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(3) > span').text
-                fiveyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(3) > span').text
-                fiveyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(6) > div:nth-of-type(3) > span').text
-                fiveyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(7) > div:nth-of-type(3) > span').text
-                fiveyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(8) > div:nth-of-type(3) > span').text
+                fiveyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(3) > div:nth-child(3) > span.W\(39\%\).Fl\(start\)').text
+                fiveyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(4) > div:nth-child(3) > span.W\(39\%\).Fl\(start\)').text
+                fiveyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(6) > div:nth-child(3) > span.W\(39\%\).Fl\(start\)').text
+                fiveyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(7) > div:nth-child(3) > span.W\(39\%\).Fl\(start\)').text
+                fiveyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(8) > div:nth-child(3) > span.W\(39\%\).Fl\(start\)').text
                 ws.cell(i,25).value=fiveyearalpha
                 ws.cell(i,24).value=fiveyearbeta
                 ws.cell(i,23).value=fiveyearrsquared
                 ws.cell(i,20).value=fiveyearsd
                 ws.cell(i,21).value=fiveyearsharpe        
 
-                tenyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(4) > span').text
-                tenyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(4) > span').text
-                tenyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(6) > div:nth-of-type(4) > span').text
-                tenyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(7) > div:nth-of-type(4) > span').text
-                tenyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div:nth-of-type(2) > div > div:nth-of-type(8) > div:nth-of-type(4) > span').text
+                tenyearalpha=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(3) > div:nth-child(4) > span.W\(39\%\).Fl\(start\)').text
+                tenyearbeta=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(4) > div:nth-child(4) > span.W\(39\%\).Fl\(start\)').text
+                tenyearrsquared=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(6) > div:nth-child(4) > span.W\(39\%\).Fl\(start\)').text
+                tenyearsd=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(7) > div:nth-child(4) > span.W\(39\%\).Fl\(start\)').text
+                tenyearsharpe=driver.find_element_by_css_selector('#Col1-0-Risk-Proxy > section > div.Mb\(25px\).Ovx\(a\) > div > div:nth-child(8) > div:nth-child(4) > span.W\(39\%\).Fl\(start\)').text
                 ws.cell(i,31).value=tenyearalpha
                 ws.cell(i,30).value=tenyearbeta
                 ws.cell(i,29).value=tenyearrsquared
@@ -169,7 +172,7 @@ for i in range(3, ws.max_row+1):
                 ws.cell(i,34).value=threeyeartax
                 ws.cell(i,35).value=fiveyeartax
                 ws.cell(i,36).value=tenyeartax
-                ws.cell(i,13).value=tenyear  
+                #ws.cell(i,13).value=tenyear  
                 break
             except:  
                 pass
@@ -195,7 +198,7 @@ for i in range(3, ws.max_row+1):
 
                 while True:
                     try:
-                        threeyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-of-type(2) > td:nth-of-type(5)').text
+                        threeyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-child(2) > td:nth-child(5)').text
                         ws.cell(i,16).value=threeyearsortino
                         break
                     except:
@@ -212,7 +215,7 @@ for i in range(3, ws.max_row+1):
 
                 while True:
                     try:
-                        fiveyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-of-type(2) > td:nth-of-type(5)').text
+                        fiveyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-child(2) > td:nth-child(5)').text
                         ws.cell(i,22).value=fiveyearsortino
                         break
                     except:
@@ -228,7 +231,7 @@ for i in range(3, ws.max_row+1):
 
                 while True:
                     try:
-                        tenyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-of-type(2) > td:nth-of-type(5)').text
+                        tenyearsortino=driver.find_element_by_css_selector('#div_volatility > table > tbody > tr:nth-child(2) > td:nth-child(5)').text
                         ws.cell(i,28).value=tenyearsortino
                         break
                     except:
@@ -237,5 +240,6 @@ for i in range(3, ws.max_row+1):
             except:
                 pass
 
-wb.save(r'C:\Users\light\Desktop\lightsquaresolutions\Mutual_Fund_Tracker\Mutual_Fund_Tracker.xlsx')
+#wb.save(r'C:\Users\light\Desktop\lightsquaresolutions\Mutual_Fund_Tracker\Mutual_Fund_Tracker.xlsx')
+wb.save(r'Mutual_Fund_Tracker.xlsx')
 driver.quit()   
